@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <title>File Metadata Service</title>
+</head>
+<style>
+  body {
+    box-sizing: border-box;
+    background: #FEDB43;
+    font-family: Ubuntu, sans-serif;
+    color: #000;
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+  }
+
+  form {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  input[type='file'] {
+    display: none;
+  }
+
+  label[for='file'] {
+    display: flex;
+    align-items: center;
+
+    padding: 8px;  
+    background: #000;
+    color: #F5F5F5;
+    cursor: pointer;
+  }
+
+  label[for='file']:hover, button:hover {
+    background: #333;
+  }
+
+  .filename-display {
+    border: none;
+    font-size: 1em;
+    width: 15em;
+    padding: 8px;
+    
+    background: rgba(0,0,0,0.1);
+    color: #555;    
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  button {
+    display: flex;
+
+    border: none;
+    font-size: 1em;
+    font-family: inherit;    
+    margin: 2em auto;
+    padding: 8px;
+
+    background: #000;
+    color: #F5F5F5;
+    cursor: pointer;
+    
+    transition: background 0.2s ease-in, color 0.2s ease-in;
+}
+   button:disabled {
+    border: 1px solid #555;
+    
+    background: none;
+    color: #555;
+    cursor: not-allowed;
+  }
+    button:focus {
+      outline: none;
+    }
+
+  footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  a {
+    position: absolute;
+    top: 85%;
+    
+    font-size: 0.7em;
+    color: #000;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;    
+  }
+  
+</style>
+<body>
+  <form enctype="multipart/form-data" action="/uploads" method="POST">
+    <div class="wrap">
+      <input type="FILE" name="file" id="file">
+      <label for="file">Browse</label>
+      <input class='filename-display' type="text" disabled>
+    </div>
+    <div>
+    <button type="submit" id="Submit" value="Submit" disabled>Submit</button>
+    </div>
+  </form>
+  <footer>
+    <a href="https://github.com/thepeted/file-metadata-service">File Meta-data Service - README</a>
+  </footer>
+</body>
+<script type='text/javascript'>
+  'use strict'
+  
+  const fileupload = document.querySelector('input[type=file]')
+  fileupload.addEventListener('change', function() {
+    const filenameDisplay = document.querySelector('.filename-display')
+    const submit = document.getElementById('Submit')
+    filenameDisplay.value = this.files.length ? this.files[0].name : ''
+    submit.disabled = !this.files.length
+  })
+
+  const form = document.querySelector('form')
+  form.addEventListener('submit', function() {
+    document.body.style.cursor = 'progress'
+  })
+</script>
+</html>
